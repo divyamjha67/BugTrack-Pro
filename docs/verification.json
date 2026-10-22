@@ -1,0 +1,25 @@
+{
+  "verified_on": "2026-10-22",
+  "project_version": "0.3.0",
+  "tests": {
+    "result": "passed",
+    "total_cases": 70,
+    "by_module": {
+      "test_auth.py": 22,
+      "test_health.py": 3,
+      "test_models.py": 9,
+      "test_projects.py": 36
+    }
+  },
+  "api_operations": 12,
+  "database_tables": [
+    "users",
+    "projects",
+    "project_members",
+    "issues"
+  ],
+  "coverage_percentage": "not measured",
+  "load_testing": "not performed",
+  "deployment": "local development only",
+  "note": "Counts include parametrized pytest cases. No user database or live secrets are packaged."
+}

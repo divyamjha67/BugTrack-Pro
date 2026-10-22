@@ -1,0 +1,141 @@
+{
+  "snapshot_version": "0.3.0",
+  "snapshot_date": "2026-10-22",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "41b3cb46841afb65c0d44de405fabbcff6ca04c68f9f073c7d8f5c51c1b93f19",
+      "bytes": 9208
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "71f9a2a23bcb9a1dd208f24f2c0307fdfe97e74bdc4f9d058ddb696587173fe9",
+      "bytes": 73
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "0ade93a9d6e6312b76cc4cd4879a40ada7d5eb9ae716997a5efb4834768b0fd3",
+      "bytes": 503
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "451415fd484ffd5d843c77c6f67dc9ce1b87941b64af82051fa301e640a9566c",
+      "bytes": 115472
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "092116547a120188fc702c697a98b4200396205a1511546f647a6ee37c15c6ff",
+      "bytes": 1960
+    },
+    {
+      "path": "app/__init__.py",
+      "sha256": "3976b585a4dfbab8b78af2aee0860f27ff2abf7680067dd3f504989fa023207c",
+      "bytes": 40
+    },
+    {
+      "path": "app/auth.py",
+      "sha256": "f1149d59ca8b8368925c566ebf4ca871b28d6f00126c29b0e2e0ce4a59d7db52",
+      "bytes": 3718
+    },
+    {
+      "path": "app/database.py",
+      "sha256": "d93ddfc2deea4c50b978a30280bfa42976cfc2894abb470b6073f724b959e88d",
+      "bytes": 1565
+    },
+    {
+      "path": "app/main.py",
+      "sha256": "ea2685209971a36ec54c72e0b3cf8a8b22e4c99ed5eb70c684afe3f9e9fa5078",
+      "bytes": 2311
+    },
+    {
+      "path": "app/models.py",
+      "sha256": "57cc9c163cd7f55f7db073f1ef361bf4ae02f5f44e15eaa92e13b8125dcbfaff",
+      "bytes": 4793
+    },
+    {
+      "path": "app/permissions.py",
+      "sha256": "39ea27822da780013190569a3cea23c6ebc5a1ab10d21283a163611a10a8f77c",
+      "bytes": 1181
+    },
+    {
+      "path": "app/projects.py",
+      "sha256": "dedef9fae9ca9de2669d3e6122f9f0db9d6a27633e3ad24e7fa3196bfadd9dbd",
+      "bytes": 5468
+    },
+    {
+      "path": "app/schemas.py",
+      "sha256": "3955a029e415a74800a474458b361960b7acd3617b1e9f92e06f0e9c13f0d415",
+      "bytes": 3103
+    },
+    {
+      "path": "app/security.py",
+      "sha256": "3f932d5c98c4b2a22189d5d0dc5f179613b69a39b45e2fc8da77911cd5d0d4e5",
+      "bytes": 1657
+    },
+    {
+      "path": "app/settings.py",
+      "sha256": "1390a5bf7bf8b4ec2b82276076ca140835f1919ff9776e556b621ce2da134fc1",
+      "bytes": 1073
+    },
+    {
+      "path": "tests/conftest.py",
+      "sha256": "586d0505b42536a4895725729ec73ef9d46cd47cad97f3a314961b8f4edbe8d1",
+      "bytes": 905
+    },
+    {
+      "path": "tests/test_auth.py",
+      "sha256": "5465903aed28ff3bb84fe96b5d68fab4f1f6c4167e2e26ad1bd817b87a4823ab",
+      "bytes": 6140
+    },
+    {
+      "path": "tests/test_health.py",
+      "sha256": "284a12277db7c17895a4c121083c3958ed98a22df05dd8c0f299bc4259120e81",
+      "bytes": 1012
+    },
+    {
+      "path": "tests/test_models.py",
+      "sha256": "8003ce554e35190e7e4f70f12698e9715d0f8c9e1eb7606969823fa863c64bab",
+      "bytes": 3452
+    },
+    {
+      "path": "tests/test_projects.py",
+      "sha256": "3b185c7c136cd3ce2d67c2d00c2cb3c34a0ee0fcd27f9633832c98cc36ef8952",
+      "bytes": 10547
+    },
+    {
+      "path": "docs/INTERVIEW_GUIDE.md",
+      "sha256": "d552de17b6024075f7911a83733a21ef646ac244cdad2054468c7cefcfccfbcc",
+      "bytes": 88377
+    },
+    {
+      "path": "docs/milestone-2.md",
+      "sha256": "6d9539390cb151ddcc0c017142b8354c868daf0c550871e00c47db0fb186f20c",
+      "bytes": 3047
+    },
+    {
+      "path": "docs/milestone-3.md",
+      "sha256": "67670bd0aed411f8955a7e4f7b502060a9767012edf98cb83198f75fca5b0ebe",
+      "bytes": 4395
+    },
+    {
+      "path": "docs/SOURCE_MAP.md",
+      "sha256": "87af81a959c746b4df351e1110276f23faca1adb8721ce1f0afcf8b445b16e73",
+      "bytes": 7331
+    },
+    {
+      "path": "docs/openapi.json",
+      "sha256": "c60af69d3c272e914519e623261645da19a1dd4d5b3c933fe3094a25fe1faa3b",
+      "bytes": 20971
+    },
+    {
+      "path": "docs/verification.json",
+      "sha256": "7a09ea2a2448b7b0d752a717245d682b07301e8f7a01d4cde4fc7517535b1a7c",
+      "bytes": 623
+    },
+    {
+      "path": "docs/BugTrack_Pro_Interview_Handbook.pdf",
+      "sha256": "797ddbad0715244b21ede74df2bf1a0035f5b751f220346764bbbfbaee0fc932",
+      "bytes": 112299
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+annotated-doc==0.0.5
+    # via fastapi
+annotated-types==0.8.0
+    # via pydantic
+anyio==4.15.1
+    # via
+    #   httpx2
+    #   starlette
+argon2-cffi==25.1.0
+    # via pwdlib
+argon2-cffi-bindings==26.1.0
+    # via argon2-cffi
+cffi==2.1.1
+    # via argon2-cffi-bindings
+click==8.5.0
+    # via uvicorn
+colorama==0.4.6 ; sys_platform == 'win32'
+    # via pytest
+dnspython==2.9.0
+    # via email-validator
+email-validator==2.3.0
+    # via bugtrack-pro
+fastapi==0.159.1
+    # via bugtrack-pro
+greenlet==3.5.6 ; platform_machine == 'AMD64' or platform_machine == 'WIN32' or platform_machine == 'aarch64' or platform_machine == 'amd64' or platform_machine == 'ppc64le' or platform_machine == 'win32' or platform_machine == 'x86_64'
+    # via sqlalchemy
+h11==0.16.0
+    # via
+    #   httpcore2
+    #   uvicorn
+httpcore2==2.16.0 ; sys_platform != 'emscripten'
+    # via httpx2
+httpx2==2.16.0
+    # via bugtrack-pro
+httpx2-jsfetch==1.0 ; sys_platform == 'emscripten'
+    # via httpx2
+idna==3.20
+    # via
+    #   anyio
+    #   email-validator
+    #   httpx2
+iniconfig==2.3.1
+    # via pytest
+opentelemetry-api==1.45.1
+    # via fastapi
+packaging==26.3
+    # via pytest
+pluggy==1.7.0
+    # via pytest
+pwdlib==0.3.1
+    # via bugtrack-pro
+pycparser==3.12 ; implementation_name != 'PyPy'
+    # via cffi
+pydantic==2.14.1
+    # via fastapi
+pydantic-core==2.50.1
+    # via pydantic
+pygments==2.21.0
+    # via pytest
+pyjwt==2.15.1
+    # via bugtrack-pro
+pytest==9.1.1
+    # via bugtrack-pro
+sqlalchemy==2.0.55
+    # via bugtrack-pro
+starlette==1.9.0
+    # via fastapi
+truststore==0.10.5 ; sys_platform != 'emscripten'
+    # via
+    #   httpcore2
+    #   httpx2
+typing-extensions==4.16.0
+    # via
+    #   anyio
+    #   fastapi
+    #   httpx2
+    #   opentelemetry-api
+    #   pydantic
+    #   pydantic-core
+    #   sqlalchemy
+    #   starlette
+    #   typing-inspection
+typing-inspection==0.4.4
+    # via
+    #   fastapi
+    #   pydantic
+uvicorn==0.54.0
+    # via bugtrack-pro
