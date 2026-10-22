@@ -1,72 +1,61 @@
-# Milestone 2: understanding registration and login
+# Authentication
 
-The goal is to identify the person making a request. Deciding which projects
-they may access comes in the next milestone.
+BugTrack Pro uses account credentials to issue an expiring JWT. Protected
+endpoints verify that token and load the corresponding user from the database.
 
-## 1. Registration creates an account
+## Registration
 
-```text
-POST /api/auth/register
-    -> schemas.py checks and normalizes the input
-    -> auth.py checks whether the email already exists
-    -> security.py hashes the password with Argon2id
-    -> auth.py saves a User and commits the transaction
-    -> UserRead returns only id, name, and email
-```
+`POST /api/auth/register` accepts a name, email, and password. Names are trimmed
+and must contain 2-100 characters. Emails are validated, trimmed, and lowercased.
+Passwords must contain 12-128 characters; their whitespace is preserved.
 
-`models.py` describes the stored row, including `password_hash`. `schemas.py`
-describes the public response, which deliberately has no password field.
-Separating them prevents internal fields from appearing accidentally in API
-responses.
+The server stores an Argon2id password hash and returns only the account ID,
+name, and email. Registration returns `201`; an existing email returns `409`.
+A database uniqueness rule also handles simultaneous duplicate registrations.
 
-The database unique constraint is still necessary even though registration
-checks the email first. Two requests can check at the same time. If both try to
-insert, only one may succeed. The failed request rolls back its transaction.
+## Login
 
-## 2. Login checks a password and issues a token
+`POST /api/auth/login` accepts email and password as JSON. Successful login
+returns `access_token`, `token_type`, `expires_in`, and the public account profile.
+Unknown accounts and incorrect passwords receive the same `401` credential error.
+Unknown-account requests still perform password verification against a dummy hash.
 
-The server finds the account and asks the hashing library whether the submitted
-password matches the stored hash. It does not decrypt the hash. The library
-stores a salt and algorithm parameters with each hash, so two accounts with the
-same password still have different stored hashes.
+Access tokens use HS256 and have a default lifetime of 30 minutes. Required claims
+are the account ID in `sub`, issue time in `iat`, expiry in `exp`, and issuer in
+`iss`. The expected issuer is `bugtrack-pro`. Tokens are signed, not encrypted,
+and do not contain passwords or project membership lists.
 
-On success, the server signs a JWT containing:
+## Protected requests
 
-| Claim | Meaning |
-| --- | --- |
-| `sub` | User ID, represented as a string |
-| `iat` | When the token was issued |
-| `exp` | When the token expires |
-| `iss` | The application that issued it |
-
-The signature helps detect changes to the claims. A JWT is not encrypted: its
-payload can be read, so it must not contain passwords or other secrets.
-
-## 3. A protected endpoint checks the token
+Send this header with protected HTTP requests:
 
 ```text
-GET /api/me + Authorization: Bearer <token>
-    -> get_current_user reads the token
-    -> checks the signature, algorithm, issuer, and expiry
-    -> loads the user from the database
-    -> the endpoint returns UserRead
+Authorization: Bearer <access_token>
 ```
 
-`Depends(get_current_user)` means FastAPI runs this check before the endpoint.
-We will reuse that dependency on project and issue endpoints. Those endpoints
-will also check ownership or membership; having a valid token alone will not
-grant access to every project.
+In `/docs`, paste only the complete token value into **Authorize**. Confirm the
+current account through `GET /api/me` before performing project operations.
+Registration does not automatically replace a previously saved authorization.
 
-## Try these three checks yourself
+`get_current_user` verifies the signature and claims and loads the account.
+Missing, expired, malformed, or invalid tokens return `401`. Response schemas
+exclude password hashes, and validation errors omit submitted input values.
 
-1. Register and log in through `/docs`, then authorize and call `/api/me`.
-2. Log out of the explorer and call `/api/me` again. Explain why it returns `401`.
-3. Try registering the same email using capital letters. Explain why it returns
-   `409` instead of creating another account.
+## Configuration and limitations
 
-For interviews, practise answering: why hash instead of encrypt passwords, why
-use a unique database constraint after checking the email, and how authentication
-differs from authorization. Follow the code while explaining each answer.
+Set `BUGTRACK_SECRET_KEY` to the same securely generated value across restarts
+and workers. It must contain at least 32 UTF-8 bytes. Without it, the application
+generates a development key and previously issued tokens fail after a restart.
+No `.env` loader is configured.
 
-References: [FastAPI's hashing and JWT guide](https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/)
-and [OWASP password storage guidance](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html).
+The API explorer's Logout control clears its saved token; it does not revoke
+copied tokens on the server. Refresh tokens, a password-reset flow, email
+verification, per-token revocation, and login throttling are future work.
+
+## Implementation
+
+- `schemas.py`: credential validation and public response models.
+- `security.py`: password hashing, verification, and JWT creation/verification.
+- `auth.py`: registration and login routes and the current-user dependency.
+- `settings.py`: signing key and token lifetime.
+- `tests/test_auth.py`: positive and negative authentication behavior.

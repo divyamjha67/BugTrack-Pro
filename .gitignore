@@ -6,3 +6,7 @@ __pycache__/
 *.db-shm
 *.db-wal
 .env
+
+# Personal preparation materials are kept outside the project repository.
+docs/INTERVIEW_GUIDE.md
+docs/BugTrack_Pro_Interview_Handbook.pdf

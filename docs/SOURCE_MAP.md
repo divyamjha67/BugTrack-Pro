@@ -4,7 +4,7 @@ Version 0.3.0 | Verified 22 October 2026
 
 Line numbers refer to this packaged source snapshot. Later edits may move definitions.
 
-The complete explanation is in INTERVIEW_GUIDE.md. This index helps locate the corresponding code.
+This index identifies definitions in the application and test source files.
 
 ## app/__init__.py
 

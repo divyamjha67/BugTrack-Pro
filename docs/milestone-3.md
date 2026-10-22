@@ -1,98 +1,65 @@
-# Milestone 3: projects, membership, and authorization
+# Projects and access control
 
-Authentication identifies the user. Authorization decides whether that user
-may perform this particular action on this particular project.
+Project access is determined by current database membership. An authenticated
+account can create its own projects; it cannot access arbitrary existing projects.
 
-## What you can do now
+## Project creation
 
-| Request | Owner | Other project member | Outsider |
+`POST /api/projects` accepts a name and optional description. The server derives
+the owner ID from the authenticated account. It saves the project and the owner's
+membership in one transaction, so a failed membership insert also rolls back the
+new project. The request cannot nominate or change an owner through `owner_id`.
+
+`GET /api/projects` lists only projects the current account belongs to. Project
+names need not be unique; use the ID returned by creation or listing.
+
+## Permissions
+
+| Operation | Owner | Other member | Outsider |
 | --- | --- | --- | --- |
 | View project details | Allowed | Allowed | 404 |
 | View member list | Allowed | Allowed | 404 |
-| Edit project name/description | Allowed | 403 | 404 |
+| Edit project name or description | Allowed | 403 | 404 |
 | Add a registered user | Allowed | 403 | 404 |
-| Remove a member | Allowed, with restrictions | 403 | 404 |
+| Remove an eligible member | Allowed | 403 | 404 |
 
-Every request requires a valid access token. The project list contains only
-projects with a membership record for the current user. An inaccessible project
-and a nonexistent project both return `404`, so these endpoints do not disclose
-private project details to outsiders.
+All operations require a valid token. The application gives outsiders the same
+`404 Project not found` response for absent and inaccessible projects. Members
+attempting an owner-only operation receive `403`.
 
-## Create a project and automatically join it
+`get_member_project` joins `projects` to `project_members` and filters by the
+requested project ID and the current user ID. `require_project_owner` first
+requires membership, then checks `owner_id`. Routes declare the appropriate
+dependency before reading or changing project data.
 
-In `/docs`, log in, authorize, and submit this to `POST /api/projects`:
+## Membership management
 
-```json
-{
-  "name": "College Website",
-  "description": "Track bugs in our college website"
-}
-```
+The owner adds a member through `POST /api/projects/{project_id}/members`, with
+the registered account's email in the body. Adding a membership grants access
+immediately; there is no invitation or acceptance workflow. A missing account
+returns `404`, and a duplicate membership returns `409`.
 
-The server takes the owner ID from your verified token. You cannot nominate
-another owner by adding `owner_id` to the request body; extra fields are rejected.
+`GET /api/projects/{project_id}/members` exposes account ID, name, email, derived
+owner/member role, and join time. Related account data is eagerly loaded to avoid
+a separate user query for every membership.
 
-In `projects.py`, creating the project involves two writes:
+The owner can remove an eligible member through
+`DELETE /api/projects/{project_id}/members/{user_id}`. An owner cannot be removed.
+An issue's reporter or assignee membership cannot be removed while referenced by
+that issue. These conflicts return `409`; a successful removal returns `204`.
 
-```text
-add Project -> flush to obtain its ID
-    -> add ProjectMember for the owner
-    -> commit both records together
-```
+Membership is checked on each request. A removed member's existing token remains
+an account credential but no longer grants access to that project. Access to
+`/api/me` and other projects is unaffected.
 
-`flush()` sends pending writes to the database but does not make the transaction
-permanent. `commit()` completes it. If saving the membership fails, `rollback()`
-undoes the project too. The tests simulate that failure to check this guarantee.
+## Database integrity and limits
 
-## Add a teammate and check the difference in access
+The membership table uses `(project_id, user_id)` as its primary key. Composite
+foreign keys on issues ensure their reporter and assignee belong to the same
+project. Project creation handles owner membership atomically, but direct database
+maintenance must also preserve that invariant.
 
-1. Register `asha@example.com` with a name and a password of at least 12 characters.
-2. Log in as the project owner and authorize with the owner's token.
-3. Submit `{"email": "asha@example.com"}` to
-   `POST /api/projects/{project_id}/members` using your project's returned ID.
-4. Log in as Asha, replace the authorized token, and execute
-   `GET /api/projects/{project_id}`. It succeeds.
-5. As Asha, try `PATCH /api/projects/{project_id}` with
-   `{"description": "Trying a member edit"}`. It returns `403`.
-6. As the owner, execute that same update. It succeeds.
-
-Adding an account grants membership immediately. It is a local application
-operation, with no email delivery or acceptance step. The account must already
-exist, and duplicate membership returns `409`.
-
-## Read the access check
-
-In `permissions.py`, `get_member_project` joins `projects` to `project_members`
-and filters by both the requested project ID and the current user's ID. A token
-for a different project member cannot bypass this query by changing the URL.
-
-`require_project_owner` first uses that membership check, then compares the
-project's stored `owner_id` to the current user. Project endpoints declare the
-appropriate check with `Depends(...)`; FastAPI runs it before the operation.
-
-We do not put a list of project memberships in the token. Each request checks
-current database records, so removing a member revokes project access even if
-they still have a valid login token. Their account and access to `/api/me` remain.
-
-## Removing members safely
-
-The owner may call `DELETE /api/projects/{project_id}/members/{user_id}`.
-The owner cannot be removed. A member linked to existing issues also cannot be
-removed, because those issues reference their membership. That request returns
-`409`; the transaction rolls back and the member retains access. Reassigning an
-issue can remove an assignment dependency, while a reporter dependency remains
-until the associated issue is removed. We will revisit account deactivation and
-history preservation before offering a more flexible removal policy.
-
-## Your interview explanation
-
-Practise explaining three choices while pointing to the code:
-
-- Why the owner ID comes from the authenticated user rather than the request body.
-- Why project creation and owner membership must be saved in one transaction.
-- Why an existing login token does not grant access after membership is removed.
-
-Next: issue creation, assignment, status changes, and permissions for each action.
-
-References: [SQLAlchemy transactions](https://docs.sqlalchemy.org/en/20/orm/session_basics.html)
-and [FastAPI routers and dependencies](https://fastapi.tiangolo.com/tutorial/bigger-applications/).
+Ownership transfer, project deletion, flexible member deactivation, and list
+pagination are not implemented. Issue APIs remain planned. Tests cover access
+for owners, members, and outsiders, membership revocation, duplicate handling,
+linked-issue conflicts, and project-creation rollback.

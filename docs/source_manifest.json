@@ -4,13 +4,13 @@
   "files": [
     {
       "path": "README.md",
-      "sha256": "41b3cb46841afb65c0d44de405fabbcff6ca04c68f9f073c7d8f5c51c1b93f19",
-      "bytes": 9208
+      "sha256": "cda80937cfcb6ecc402bbab21e7fe364f1fbfc6054222c35f468eba08b5253a0",
+      "bytes": 6576
     },
     {
       "path": ".gitignore",
-      "sha256": "71f9a2a23bcb9a1dd208f24f2c0307fdfe97e74bdc4f9d058ddb696587173fe9",
-      "bytes": 73
+      "sha256": "3bb1a4c80e50436c82e32b2cb9e7500c441a9e832d3d1739fc79a864ab0fc71f",
+      "bytes": 213
     },
     {
       "path": "pyproject.toml",
@@ -103,24 +103,19 @@
       "bytes": 10547
     },
     {
-      "path": "docs/INTERVIEW_GUIDE.md",
-      "sha256": "d552de17b6024075f7911a83733a21ef646ac244cdad2054468c7cefcfccfbcc",
-      "bytes": 88377
-    },
-    {
       "path": "docs/milestone-2.md",
-      "sha256": "6d9539390cb151ddcc0c017142b8354c868daf0c550871e00c47db0fb186f20c",
-      "bytes": 3047
+      "sha256": "ab3b1b3c0ea053a52858f5ae394a970cce54d2a61227c13cc9eabe571a40089c",
+      "bytes": 2841
     },
     {
       "path": "docs/milestone-3.md",
-      "sha256": "67670bd0aed411f8955a7e4f7b502060a9767012edf98cb83198f75fca5b0ebe",
-      "bytes": 4395
+      "sha256": "9431c36e42eccb13d884e3843be2fbd8870647e93a044387dc89d4e454bda52d",
+      "bytes": 3229
     },
     {
       "path": "docs/SOURCE_MAP.md",
-      "sha256": "87af81a959c746b4df351e1110276f23faca1adb8721ce1f0afcf8b445b16e73",
-      "bytes": 7331
+      "sha256": "78386089ed3eae3ab5845b22b3823478a711d4e9b86191ffd923bff7d898e216",
+      "bytes": 7308
     },
     {
       "path": "docs/openapi.json",
@@ -131,11 +126,6 @@
       "path": "docs/verification.json",
       "sha256": "7a09ea2a2448b7b0d752a717245d682b07301e8f7a01d4cde4fc7517535b1a7c",
       "bytes": 623
-    },
-    {
-      "path": "docs/BugTrack_Pro_Interview_Handbook.pdf",
-      "sha256": "797ddbad0715244b21ede74df2bf1a0035f5b751f220346764bbbfbaee0fc932",
-      "bytes": 112299
     }
   ]
 }
